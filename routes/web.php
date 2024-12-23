@@ -11,6 +11,9 @@ Route::get('/contact',[LayoutsController::class,'contact'])->name('contact');
 Route::get('/about',[LayoutsController::class,'about'])->name('about');
 Route::get('/settings',[LayoutsController::class,'settings'])->name('settings');
 Route::get('/profile',[LayoutsController::class,'profile'])->name('profile');
+Route::get('/study',[LayoutsController::class,'study'])->name('study');
+Route::get('/study/{id}',[LayoutsController::class,'studyFind'])->name('study.show');
+
 
 Route::get('/topic/{id}/details',[LayoutsController::class,'topicDetails'])->name('topic.details');
 Route::get('topic/{id}/about',[LayoutsController::class,'topicAbout'])->name('topic.about');

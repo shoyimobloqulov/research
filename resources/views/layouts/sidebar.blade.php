@@ -10,6 +10,8 @@
                         class="menu-icon bi bi-columns-gap"></i> <span class="menu-name">Topics</span></a></li>
             <li class="nav-item"><a href="{{ route('contact') }}" class="nav-link"><i
                         class="menu-icon bi bi-wallet"></i> <span class="menu-name">Contact details</span></a></li>
+            <li class="nav-item"><a href="{{ route('study') }}" class="nav-link"><i
+                        class="menu-icon bi bi-wallet"></i> <span class="menu-name">Articles for Self-study</span></a></li>
             <li class="nav-item"><a href="{{ route('about') }}" class="nav-link"><i
                         class="menu-icon bi bi-file-earmark-person-fill"></i> <span class="menu-name">About</span></a></li>
         </ul>

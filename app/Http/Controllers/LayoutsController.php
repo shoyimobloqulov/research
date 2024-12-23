@@ -263,4 +263,21 @@ class LayoutsController extends Controller
         $filename = asset("theme/".$id . "-theme.docx");
         return view('topic.about',compact('filename'));
     }
+
+    public function study()
+    {
+        return view('pages.study');
+    }
+
+    public function studyFind($id)
+    {
+        $filePath = public_path("article/{$id}.pdf");
+
+
+        if (!file_exists($filePath)) {
+            abort(404, "The requested article does not exist.");
+        }
+
+        return response()->file($filePath);
+    }
 }
