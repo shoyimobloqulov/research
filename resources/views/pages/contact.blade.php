@@ -7,7 +7,7 @@
                 src="{{ asset('bg102.jpg') }}" alt="" style="display: none;"></div>
         <br><br>
         <div class="w-100 p-3 bottom-0 position-relative z-index-1">
-            <figure class="avatar avatar-100 rounded bg-white p-3 mb-3"><img src="{{ asset('logo.jpg') }}" alt=""
+            <figure class="avatar avatar-100 rounded bg-white p-3 mb-3"><img src="{{ asset('user.png') }}" alt=""
                                                                              class="w-100 d-block"></figure>
             <div class="row text-white">
                 <div class="col-12 col-md mb-3 mb-md-0">

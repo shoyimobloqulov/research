@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LayoutsController extends Controller
@@ -216,7 +217,8 @@ class LayoutsController extends Controller
 
     public function welcome()
     {
-        return view('welcome');
+        $users = User::all();
+        return view('welcome',compact('users'));
     }
 
     public function topics()
@@ -279,5 +281,16 @@ class LayoutsController extends Controller
         }
 
         return response()->file($filePath);
+    }
+
+    public function linkArticles()
+    {
+        return view('pages.links');
+    }
+
+    public function glossary()
+    {
+        $filename = asset('glossary.docx');
+        return view('pages.glossary',compact('filename'));
     }
 }
