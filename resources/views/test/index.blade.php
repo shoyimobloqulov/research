@@ -3,10 +3,10 @@
     @auth
         <div class="card adminuiux-card mb-3">
             <div class="card-header">
-                <h4 class="text-center">{{ $topic->name }}</h4>
+                <h4 class="text-center">Start a mixed test</h4>
             </div>
             <div class="card-body d-flex justify-content-center">
-                <a class="btn btn-primary my-1 " type="submit" href="{{ route('test.submit',$topic->id) }}"><i
+                <a class="btn btn-primary my-1 " type="submit" href="{{ route('test.start') }}"><i
                         class="bi bi-check"></i> Start</a>
             </div>
         </div>

@@ -36,6 +36,13 @@
                     <span class="menu-name">About</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="{{ route('test') }}" class="nav-link">
+                    <i class="menu-icon bi bi-bookmark-check"></i>
+                    <span class="menu-name">Test</span>
+                </a>
+            </li>
         </ul>
 
         <div class="mt-auto"></div>

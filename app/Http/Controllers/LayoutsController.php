@@ -7,10 +7,64 @@ use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class LayoutsController extends Controller
 {
     public array $topics;
+
+    public function certificate($id, $user_id,$name)
+    {
+        $outputFile = $id ."-".$user_id. ".png";
+        $outputPath = public_path('certificate-x/' . $outputFile);
+        $url = public_path('certificate-x/' . $outputFile);
+        $qrImagePath = public_path('qr_code.png');
+
+        if (!file_exists($outputPath)) {
+            QrCode::format('png')->size(200)->style('round')->generate($url, $qrImagePath);
+
+            $imagePath = 'certificate.jpg';
+            $image = imagecreatefromjpeg($imagePath);
+            $white = imagecolorallocate($image, 20, 20, 40);
+            $orange = imagecolorallocate($image, 52, 43, 70);
+
+            $fontPath = public_path('fonts/AlexBrush-Regular.ttf');
+            $text = $name;
+            $fontSize = 70;
+
+            $imageWidth = imagesx($image);
+            $imageHeight = imagesy($image);
+
+            $textBox = imagettfbbox($fontSize, 0, $fontPath, $text);
+            $textWidth = $textBox[2] - $textBox[0];
+            $textHeight = $textBox[7] - $textBox[1];
+
+            $x = ($imageWidth / 2) - ($textWidth / 2);
+            $y = ($imageHeight / 2) + ($textHeight / 2);
+
+            imagettftext($image, $fontSize, 0, $x, $y, $orange, $fontPath, $text);
+            imagettftext($image, $fontSize, 0, $x - 2, $y - 2, $white, $fontPath, $text);
+
+            $qrImage = imagecreatefrompng($qrImagePath);
+            $qrImageWidth = imagesx($qrImage);
+            $qrImageHeight = imagesy($qrImage);
+
+            $qrX = $imageWidth - $qrImageWidth - 30;
+            $qrY = $imageHeight - $qrImageHeight - 30;
+
+            imagecopy($image, $qrImage, $qrX, $qrY, 0, 0, $qrImageWidth, $qrImageHeight);
+
+            imagejpeg($image, $outputPath);
+
+            unlink($qrImagePath);
+
+            imagedestroy($image);
+            imagedestroy($qrImage);
+        }
+
+        return response()->file($outputPath);
+    }
+
 
     public function __construct()
     {
@@ -231,13 +285,13 @@ class LayoutsController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        return view('welcome',compact('users','quizResults','results'));
+        return view('welcome', compact('users', 'quizResults', 'results'));
     }
 
     public function topics()
     {
         $topics = $this->topics;
-        return  view('pages.topics',compact('topics'));
+        return view('pages.topics', compact('topics'));
     }
 
     public function contact()
@@ -258,7 +312,7 @@ class LayoutsController extends Controller
     public function profile()
     {
         $user = auth()->user();
-        return view('pages.profile',compact('user'));
+        return view('pages.profile', compact('user'));
     }
 
     public function topicDetails($id)
@@ -270,13 +324,13 @@ class LayoutsController extends Controller
                 break;
             }
         }
-        return view('topic.details',compact('topic'));
+        return view('topic.details', compact('topic'));
     }
 
     public function topicAbout($id): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        $filename = asset("theme/".$id . "-theme.docx");
-        return view('topic.about',compact('filename'));
+        $filename = asset("theme/" . $id . "-theme.docx");
+        return view('topic.about', compact('filename'));
     }
 
     public function study()
@@ -297,40 +351,39 @@ class LayoutsController extends Controller
     public function glossary(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $filename = asset('glossary.docx');
-        return view('pages.glossary',compact('filename'));
+        return view('pages.glossary', compact('filename'));
     }
 
     public function topicAudio($id): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        return view('topic.audio',compact('id'));
+        return view('topic.audio', compact('id'));
     }
 
     public function topicTest($id)
     {
         $topic = Subject::find($id);
-        return view('topic.test.all',compact('topic'));
+        return view('topic.test.all', compact('topic'));
     }
+
     public function testSubmit(int $id): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         if ($id >= 1 and $id <= 20) {
             $topic = Subject::find($id);
 
             if ($id != 1) {
-                $topic = QuizResult::where('quiz_id',$id - 1)
+                $topic = QuizResult::where('quiz_id', $id - 1)
                     ->max('score');
 
                 if (intval($topic) > 80) {
-                    return view('topic.test.submit',compact('topic'));
-                }
-                else {
+                    return view('topic.test.submit', compact('topic'));
+                } else {
                     $id = $id - 1;
                     $error = "Test natijasi 80% dan yuqori to'plansagina keyingi bosqichdagi testni yechish imkoniyati boladi.";
-                    return view('topic.test.not',compact('error','id'));
+                    return view('topic.test.not', compact('error', 'id'));
                 }
             }
-            return view('topic.test.submit',compact('topic'));
-        }
-        else {
+            return view('topic.test.submit', compact('topic'));
+        } else {
             return view('topic.test.notfound');
         }
     }
