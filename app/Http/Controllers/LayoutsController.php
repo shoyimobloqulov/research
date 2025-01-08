@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\QuizResult;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LayoutsController extends Controller
 {
@@ -218,7 +221,17 @@ class LayoutsController extends Controller
     public function welcome()
     {
         $users = User::all();
-        return view('welcome',compact('users'));
+
+        $quizResults = QuizResult::where('user_id', auth()->id())
+            ->select('quiz_id', DB::raw('MAX(score) as score'))
+            ->groupBy('quiz_id')
+            ->with('quiz')->get();
+
+        $results = QuizResult::where('user_id', auth()->id())
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        return view('welcome',compact('users','quizResults','results'));
     }
 
     public function topics()
@@ -273,24 +286,52 @@ class LayoutsController extends Controller
 
     public function studyFind($id)
     {
-        $filePath = public_path("article/{$id}.pdf");
-
-
-        if (!file_exists($filePath)) {
-            abort(404, "The requested article does not exist.");
-        }
-
-        return response()->file($filePath);
+        return view('study.show');
     }
 
-    public function linkArticles()
+    public function linkArticles(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         return view('pages.links');
     }
 
-    public function glossary()
+    public function glossary(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $filename = asset('glossary.docx');
         return view('pages.glossary',compact('filename'));
+    }
+
+    public function topicAudio($id): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('topic.audio',compact('id'));
+    }
+
+    public function topicTest($id)
+    {
+        $topic = Subject::find($id);
+        return view('topic.test.all',compact('topic'));
+    }
+    public function testSubmit(int $id): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
+        if ($id >= 1 and $id <= 20) {
+            $topic = Subject::find($id);
+
+            if ($id != 1) {
+                $topic = QuizResult::where('quiz_id',$id - 1)
+                    ->max('score');
+
+                if (intval($topic) > 80) {
+                    return view('topic.test.submit',compact('topic'));
+                }
+                else {
+                    $id = $id - 1;
+                    $error = "Test natijasi 80% dan yuqori to'plansagina keyingi bosqichdagi testni yechish imkoniyati boladi.";
+                    return view('topic.test.not',compact('error','id'));
+                }
+            }
+            return view('topic.test.submit',compact('topic'));
+        }
+        else {
+            return view('topic.test.notfound');
+        }
     }
 }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Research Hub</title>
-    <link rel="icon" type="image/png" href="{{ asset('logo.jpg') }}">
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link
@@ -45,7 +45,7 @@
     <div class="container h-100">
         <div class="row justify-content-center align-items-center text-center h-100">
             <div class="col-12 mb-auto pt-4"></div>
-            <div class="col-auto"><img src="{{ asset('logo.jpg') }}" alt="" class="height-60 mb-3">
+            <div class="col-auto"><img src="{{ asset('logo.png') }}" alt="" class="height-60 mb-3">
                 <p class="h6 mb-0">Researchs</p>
                 <p class="h3 mb-4">Hub</p>
                 <div class="loader10 mb-2 mx-auto"></div>
@@ -114,7 +114,6 @@
 
 <script src="{{ asset('assets/js/investment/investment-dashboard.js') }}"></script>
 
-@yield('script')
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
@@ -152,5 +151,8 @@
         });
     });
 </script>
+
+
+@yield('script')
 </body>
 </html>

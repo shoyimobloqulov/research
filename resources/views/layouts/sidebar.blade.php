@@ -21,13 +21,7 @@
             <li class="nav-item">
                 <a href="{{ route('study') }}" class="nav-link">
                     <i class="menu-icon bi bi-book"></i>
-                    <span class="menu-name">Articles for Self-study</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('link.articles') }}" class="nav-link">
-                    <i class="menu-icon bi bi-link"></i>
-                    <span class="menu-name">Links for articles</span>
+                    <span class="menu-name">Self-study</span>
                 </a>
             </li>
             <li class="nav-item">

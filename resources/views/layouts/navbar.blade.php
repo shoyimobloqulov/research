@@ -4,8 +4,8 @@
             <button class="btn btn-link btn-square sidebar-toggler" type="button" onclick="initSidebar()"><i
                     class="sidebar-svg" data-feather="menu"></i></button>
             <a class="navbar-brand" href="/"><img data-bs-img="light"
-                                                  src="{{ asset('logo.jpg') }}" alt=""> <img
-                    data-bs-img="dark" src="{{ asset('assets/img/logo.svg') }}" alt="">
+                                                  src="{{ asset('logo.png') }}" alt=""> <img
+                    data-bs-img="dark" src="{{ asset('logo.png') }}" alt="">
                 <div class=""><span class="h5"> <b>Research Hub</b></span>
                     <p class="fs-12 opacity-75">System</p></div>
             </a>

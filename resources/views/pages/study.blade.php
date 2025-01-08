@@ -2,21 +2,35 @@
 
 @section('content')
     <div class="container mt-4">
-        <h1 class="text-center mb-4">Articles for Self-study</h1>
+        <h1 class="text-center mb-4">Self-study</h1>
         <div class="row">
             @for ($i = 1; $i <= 20; $i++)
                 <div class="col-md-3 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body d-flex flex-column justify-content-between">
-                            <h5 class="card-title">Article {{ $i }}</h5>
-                            <p class="card-text">This is a brief description of Article {{ $i }}. Learn more by downloading the PDF.</p>
-                            <div class="text-center mt-auto">
-                                <a href="{{ route('study.show',$i) }}" class="btn btn-primary">
-                                    <i class="bi bi-view-stacked"></i> View
-                                </a>
-                                <a href="{{ url('/article/' . $i . '.pdf') }}" class="btn btn-primary" download="{{ $i."-article.pdf" }}">
-                                    <i class="bi bi-download"></i> Download
-                                </a>
+                    <div class="card  border-theme-1 theme-green mb-3">
+                        <div class="card-header bg-theme-1-subtle">
+                            <div class="row gx-3 align-items-center">
+                                <div class="col-auto">
+                                    <div class="avatar avatar-40 bg-theme-1-subtle text-theme-1 rounded">
+                                        <i class="bi bi-book-half h5"></i>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <a href="{{ route('study.show',$i) }}" class="style-none">
+                                        <h6 class="mb-0">{{ $i }}. Self-study</h6>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body z-index-1">
+                            <div class="row gx-3 align-items-center">
+                                <div class="col">
+                                    <p class="text-secondary small">Click to view</p>
+                                </div>
+                                <div class="col-auto">
+                                    <a href="{{ route('study.show',$i) }}" class="btn btn-square btn-link">
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

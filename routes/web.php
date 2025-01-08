@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LayoutsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,10 +19,13 @@ Route::get('/glossary',[LayoutsController::class,'glossary'])->name('glossary');
 
 Route::get('/topic/{id}/details',[LayoutsController::class,'topicDetails'])->name('topic.details');
 Route::get('topic/{id}/about',[LayoutsController::class,'topicAbout'])->name('topic.about');
+Route::get('topic/{id}/audio',[LayoutsController::class,'topicAudio'])->name('topic.audio');
+Route::get('stream/audio/{filename}', [VideoController::class, 'stream'])->name('audio.stream');
+Route::get('topic/{id}/test',[LayoutsController::class,'topicTest'])->name('topic.test');
+Route::get('test/{id}/submit',[LayoutsController::class,'testSubmit'])->name('test.submit');
 
 Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 Route::put('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change_password');
-
 
 Auth::routes();
 
