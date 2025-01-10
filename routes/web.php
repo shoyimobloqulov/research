@@ -7,7 +7,7 @@ use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('test/{id}/{user_id}/certificate/{name}',[LayoutsController::class,'certificate'])->name('certificate.generate');
+Route::get('test/{id}/{user_id}/certificate/{name}', [LayoutsController::class, 'certificate'])->name('certificate.generate');
 
 Route::get('/', [LayoutsController::class, 'welcome'])->name('welcome');
 Route::get('/topics', [LayoutsController::class, 'topics'])->name('topics');
@@ -17,6 +17,8 @@ Route::get('/settings', [LayoutsController::class, 'settings'])->name('settings'
 Route::get('/profile', [LayoutsController::class, 'profile'])->name('profile');
 Route::get('/study', [LayoutsController::class, 'study'])->name('study');
 Route::get('/study/{id}', [LayoutsController::class, 'studyFind'])->name('study.show');
+Route::get('/study/docs/{id}', [LayoutsController::class, 'studyDocs'])->name('study.docs');
+Route::get('/study/activity/{id}', [LayoutsController::class, 'studyActivity'])->name('study.activity');
 Route::get('/link/articles', [LayoutsController::class, 'linkArticles'])->name('link.articles');
 Route::get('/glossary', [LayoutsController::class, 'glossary'])->name('glossary');
 

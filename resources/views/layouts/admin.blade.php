@@ -35,7 +35,7 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css"/>
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
-
+    @livewireStyles
 </head>
 <body
     class="main-bg main-bg-opac main-bg-blur adminuiux-sidebar-fill-white adminuiux-sidebar-boxed theme-blue roundedui"
@@ -154,5 +154,8 @@
 
 
 @yield('script')
+
+@livewireScripts
+
 </body>
 </html>

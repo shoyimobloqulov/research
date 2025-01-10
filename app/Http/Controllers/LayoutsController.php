@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activitie;
 use App\Models\QuizResult;
 use App\Models\Subject;
 use App\Models\User;
@@ -11,7 +12,13 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class LayoutsController extends Controller
 {
-    public array $topics;
+    public array $topics, $articles;
+
+    public function studyActivity($id)
+    {
+        $argc = Activitie::find($id);
+        return view('activity.show',compact('argc'));
+    }
 
     public function certificate($id, $user_id,$name)
     {
@@ -68,6 +75,171 @@ class LayoutsController extends Controller
 
     public function __construct()
     {
+        $this->articles = [
+            [
+                'author' => 'Fogal, G. G.',
+                'year' => 2024,
+                'title' => 'Expanding the collaborative writing research framework: A longitudinal analysis of how collaborative and independent writers orient to writing spaces.',
+                'journal' => 'Journal of Second Language Writing',
+                'volume' => 63,
+                'article_id' => '101096'
+            ],
+            [
+                'author' => 'Goshu, K. C., & Gebremariam, H. T.',
+                'year' => 2024,
+                'title' => 'Revisiting writing feedback: Using teacher-student writing conferences to enhance learners’ L2 writing skills.',
+                'journal' => 'Ampersand',
+                'volume' => 13,
+                'article_id' => '100195'
+            ],
+            [
+                'author' => 'Gusenbauer, M., & Gauster, S. P.',
+                'year' => 2025,
+                'title' => 'How to search for literature in systematic reviews and meta-analyses: A comprehensive step-by-step guide.',
+                'journal' => 'Technological Forecasting and Social Change',
+                'volume' => 212,
+                'article_id' => '123833'
+            ],
+            [
+                'author' => 'Riazi, A. M., Rezvani, R., & Ghanbar, H.',
+                'year' => 2023,
+                'title' => 'Trustworthiness in L2 writing research: A review and analysis of qualitative articles in the Journal of Second Language Writing.',
+                'journal' => 'Research Methods in Applied Linguistics',
+                'volume' => 2,
+                'issue' => 3,
+                'article_id' => '100065'
+            ],
+            [
+                'author' => 'Huemann, M., & Pesämaa, O.',
+                'year' => 2022,
+                'title' => 'The first impression counts: The essentials of writing a convincing introduction.',
+                'journal' => 'International Journal of Project Management',
+                'volume' => 49,
+                'issue' => 7,
+                'pages' => '827-830'
+            ],
+            [
+                'author' => 'Liu, J., Chabot, Y., Troncy, R., Huynh, V. P., Labbé, T., & Monnin, P.',
+                'year' => 2023,
+                'title' => 'From tabular data to knowledge graphs: A survey of semantic table interpretation tasks and methods.',
+                'journal' => 'Journal of Web Semantics',
+                'volume' => 76,
+                'article_id' => '100761'
+            ],
+            [
+                'author' => 'Eguchi, M., & Kyle, K.',
+                'year' => 2024,
+                'title' => 'Building custom NLP tools to annotate discourse-functional features for second language writing research: A tutorial.',
+                'journal' => 'Research Methods in Applied Linguistics',
+                'volume' => 3,
+                'issue' => 3,
+                'article_id' => '100153'
+            ],
+            [
+                'author' => 'Rode, S. D. M., Pennisi, P. R. C., Beaini, T. L., Curi, J. P., Cardoso, S. V., & Paranhos, L. R.',
+                'year' => 2019,
+                'title' => 'Authorship, plagiarism, and copyright transfer in the scientific universe.',
+                'journal' => 'Clinics',
+                'volume' => 74,
+                'article_id' => 'e1312'
+            ],
+            [
+                'author' => 'Bhatt, I., & Samanhudi, U.',
+                'year' => 2022,
+                'title' => 'From academic writing to academics writing: Transitioning towards literacies for research productivity.',
+                'journal' => 'International Journal of Educational Research',
+                'volume' => 111,
+                'article_id' => '101917'
+            ],
+            [
+                'author' => 'Chien, S. C., & Li, W. Y.',
+                'year' => 2024,
+                'title' => 'Perceptions of supervisors and their doctoral students regarding the problems in writing the doctoral dissertation results section.',
+                'journal' => 'English for Specific Purposes',
+                'volume' => 76,
+                'pages' => '14-27'
+            ],
+            [
+                'author' => 'Deng, L., Cheng, Y., & Gao, X.',
+                'year' => 2024,
+                'title' => 'Promotional strategies in English and Chinese research article introduction and discussion/conclusion sections: A cross-cultural study.',
+                'journal' => 'Journal of English for Academic Purposes',
+                'volume' => 68,
+                'article_id' => '101344'
+            ],
+            [
+                'author' => 'Sagitova, R., Ramazanova, M., Sharplin, E., Berekeyeva, A., & Parmenter, L.',
+                'year' => 2024,
+                'title' => 'Understanding human participant research ethics: The perspectives of social scientists in Central Asia.',
+                'journal' => 'International Journal of Educational Research',
+                'volume' => 124,
+                'article_id' => '102303'
+            ],
+            [
+                'author' => 'Wallwey, C., & Kajfez, R. L.',
+                'year' => 2023,
+                'title' => 'Quantitative research artifacts as qualitative data collection techniques in a mixed methods research study.',
+                'journal' => 'Methods in Psychology',
+                'volume' => 8,
+                'article_id' => '100115'
+            ],
+            [
+                'author' => 'Czernek-Marszałek, K., & McCabe, S.',
+                'year' => 2024,
+                'title' => 'Sampling in qualitative interview research: criteria, considerations and guidelines for success.',
+                'journal' => 'Annals of Tourism Research',
+                'volume' => 104,
+                'article_id' => '103711'
+            ],
+            [
+                'author' => 'Zheng, Y., Rollano, C., Bagnall, C., Bond, C., Song, J., & Qualter, P.',
+                'year' => 2024,
+                'title' => 'Loneliness and teacher-student relationships in children and adolescents: Multilevel cross-cultural meta-analyses of cross-sectional and longitudinal studies.',
+                'journal' => 'Journal of School Psychology',
+                'volume' => 107,
+                'article_id' => '101380'
+            ],
+            [
+                'author' => 'Gao, J., Pham, Q. H. P., & Polio, C.',
+                'year' => 2023,
+                'title' => 'The role of theory in structuring literature reviews in qualitative and quantitative research articles.',
+                'journal' => 'Journal of English for Academic Purposes',
+                'volume' => 63,
+                'article_id' => '101243'
+            ],
+            [
+                'author' => 'Ritter, C., Koralesky, K. E., Saraceni, J., Roche, S., Vaarst, M., & Kelton, D.',
+                'year' => 2023,
+                'title' => 'Qualitative research in dairy science: A narrative review.',
+                'journal' => 'Journal of Dairy Science',
+            ],
+            [
+                'author' => 'Östlund, U., Kidd, L., Wengström, Y., & Rowa-Dewar, N.',
+                'year' => 2011,
+                'title' => 'Combining qualitative and quantitative research within mixed method research designs: a methodological review.',
+                'journal' => 'International journal of nursing studies',
+                'volume' => 48,
+                'issue' => 3,
+                'pages' => '369-383'
+            ],
+            [
+                'author' => 'Boetje, J., van Ginkel, S. O., Smakman, M. H., Barendsen, E., & Versendaal, J.',
+                'year' => 2024,
+                'title' => 'Information problem solving during a digital authentic task: A thematic analysis of students’ strategies.',
+                'journal' => 'Computers in Human Behavior Reports',
+                'volume' => 15,
+                'article_id' => '100470'
+            ],
+            [
+                'author' => 'Dal Santo, T., Rice, D. B., Amiri, L. S., Tasleem, A., Li, K., Boruff, J. T., ... & Thombs, B. D.',
+                'year' => 2023,
+                'title' => 'Methods and results of studies on reporting guideline adherence are poorly reported: a meta-research study.',
+                'journal' => 'Journal of Clinical Epidemiology',
+                'volume' => 159,
+                'pages' => '225-234'
+            ]
+        ];
+
         $this->topics = array(
             [
                 "id" => 1,
@@ -340,7 +512,11 @@ class LayoutsController extends Controller
 
     public function studyFind($id)
     {
-        return view('study.show');
+        $article = $this->articles[$id - 1] ?? null;
+
+        $study = Activitie::where('subject_id',$id)
+            ->get();
+        return view('study.show',compact('id','article','study'));
     }
 
     public function linkArticles(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
@@ -386,5 +562,18 @@ class LayoutsController extends Controller
         } else {
             return view('topic.test.notfound');
         }
+    }
+
+    public function studyDocs($id): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        $filePath = public_path('article/'.$id.'.pdf');
+
+        if (!file_exists($filePath)) {
+            abort(404, 'PDF fayl topilmadi');
+        }
+
+        return response()->file($filePath, [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 }
