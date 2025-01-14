@@ -19,9 +19,9 @@ class LayoutsController extends Controller
         $argc = Activitie::find($id);
 
         $is_listing = str_starts_with($argc->name, 'Activity 4');
+        $is_vocabulary = str_starts_with($argc->name, 'Activity 5');
 
-
-        return view('activity.show',compact('argc','is_listing'));
+        return view('activity.show',compact('argc','is_listing','is_vocabulary'));
     }
 
     public function certificate($id, $user_id,$name): \Symfony\Component\HttpFoundation\BinaryFileResponse

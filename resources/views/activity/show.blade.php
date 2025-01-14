@@ -16,6 +16,10 @@
 
                                     <livewire:line-chart :listening_id="$argc->subject_id"/>
                                 @endif
+
+                                @if($is_vocabulary)
+                                    True
+                                @endif
                             </div>
                         </div>
                     </div>
