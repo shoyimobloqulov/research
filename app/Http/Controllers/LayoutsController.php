@@ -14,13 +14,17 @@ class LayoutsController extends Controller
 {
     public array $topics, $articles;
 
-    public function studyActivity($id)
+    public function studyActivity($id): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $argc = Activitie::find($id);
-        return view('activity.show',compact('argc'));
+
+        $is_listing = str_starts_with($argc->name, 'Activity 4');
+
+
+        return view('activity.show',compact('argc','is_listing'));
     }
 
-    public function certificate($id, $user_id,$name)
+    public function certificate($id, $user_id,$name): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
         $outputFile = $id ."-".$user_id. ".png";
         $outputPath = public_path('certificate-x/' . $outputFile);
@@ -444,7 +448,7 @@ class LayoutsController extends Controller
         );
     }
 
-    public function welcome()
+    public function welcome(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $users = User::all();
 
@@ -460,34 +464,34 @@ class LayoutsController extends Controller
         return view('welcome', compact('users', 'quizResults', 'results'));
     }
 
-    public function topics()
+    public function topics(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $topics = $this->topics;
         return view('pages.topics', compact('topics'));
     }
 
-    public function contact()
+    public function contact(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         return view('pages.contact');
     }
 
-    public function about()
+    public function about(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         return view('pages.about');
     }
 
-    public function settings()
+    public function settings(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         return view('pages.settings');
     }
 
-    public function profile()
+    public function profile(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $user = auth()->user();
         return view('pages.profile', compact('user'));
     }
 
-    public function topicDetails($id)
+    public function topicDetails($id): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $topic = array();
         foreach ($this->topics as $x) {
@@ -505,7 +509,7 @@ class LayoutsController extends Controller
         return view('topic.about', compact('filename'));
     }
 
-    public function study()
+    public function study(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         return view('pages.study');
     }

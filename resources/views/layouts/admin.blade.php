@@ -18,6 +18,7 @@
             --adminuiux-title-font: "Fira Sans Condensed";
             --adminuiux-title-font-weight: 500
         }
+
         img {
             display: block;
             max-width: 100%;
@@ -66,26 +67,21 @@
         <footer class="adminuiux-mobile-footer hide-on-scrolldown style-2">
             <div class="container">
                 <ul class="nav nav-pills nav-justified">
-                    <!-- Mavzular link -->
                     <li class="nav-item">
                         <a href="{{ route('topics') }}" class="nav-link">
                             <i class="nav-icon bi bi-columns-gap"></i> <span class="nav-text">Topics</span>
                         </a>
                     </li>
-                    <!-- Mundarija link -->
                     <li class="nav-item">
                         <a href="{{ route('contact') }}" class="nav-link">
                             <i class="nav-icon bi bi-wallet"></i> <span class="nav-text">Contact details</span>
                         </a>
                     </li>
-                    <!-- Biz haqimizda link -->
                     <li class="nav-item">
                         <a href="{{ route('about') }}" class="nav-link">
-                            <i class="nav-icon bi bi-file-earmark-person-fill"></i> <span
-                                class="nav-text">About</span>
+                            <i class="nav-icon bi bi-file-earmark-person-fill"></i> <span class="nav-text">About</span>
                         </a>
                     </li>
-                    <!-- Sozlamalar link -->
                     <li class="nav-item">
                         <a href="{{ route('settings') }}" class="nav-link">
                             <i class="nav-icon" data-feather="settings"></i> <span class="nav-text">Settings</span>
@@ -94,7 +90,6 @@
                 </ul>
             </div>
         </footer>
-
     </main>
 </div>
 <footer class="adminuiux-footer has-adminuiux-sidebar mt-auto">
@@ -112,13 +107,10 @@
     </div>
 </footer>
 
-<script src="{{ asset('assets/js/investment/investment-dashboard.js') }}"></script>
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
     $(document).ready(function () {
         $("#region_id").change(function () {
@@ -130,9 +122,7 @@
             if (regionId) {
                 $.ajax({
                     url: "/get-districts",
-                    data: {
-                        region_id: regionId
-                    },
+                    data: {region_id: regionId},
                     success: function (data) {
                         data.forEach(district => {
                             let option = document.createElement('option');
@@ -145,17 +135,13 @@
             }
         });
 
-
         $('.select2').select2({
             theme: 'bootstrap-5'
         });
     });
 </script>
 
-
-@yield('script')
-
 @livewireScripts
-
+@yield('script')
 </body>
 </html>

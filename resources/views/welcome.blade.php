@@ -38,7 +38,8 @@
                                     <td>{{ $result->score }} %</td>
                                     <td>
                                         @if($result->score > 50)
-                                            <a class="badge bg-success" href="{{ route('certificate.generate', ['id' => $result->id, 'user_id' => auth()->user()->id, 'name' => auth()->user()->name ?? ""]) }}">
+                                            <a class="badge bg-success"
+                                               href="{{ route('certificate.generate', ['id' => $result->id, 'user_id' => auth()->user()->id, 'name' => auth()->user()->name ?? ""]) }}">
                                                 Get Certificate
                                             </a>
                                         @else
@@ -64,44 +65,47 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
     <script>
-        $('#quizResults').DataTable();
+        $(document).ready(function () {
+            $('#quizResults').DataTable();
 
-        const quizResults = @json($quizResults);
+            const quizResults = @json($quizResults);
 
-        const labels = quizResults.map(result => result.quiz && result.quiz.name ? result.quiz.name : '50 questions');
-        const scores = quizResults.map(result => result.score);
+            const labels = quizResults.map(result => result.quiz && result.quiz.name ? result.quiz.name : '50 questions');
+            const scores = quizResults.map(result => result.score);
 
-        var ctx = document.getElementById('lineChart').getContext('2d');
-        var lineChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Your score',
-                    data: scores,
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    fill: false,
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                    }
+            const ctx = document.getElementById('lineChart').getContext('2d');
+            const lineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Your score',
+                        data: scores,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        fill: false,
+                        borderWidth: 2
+                    }]
                 },
-                plugins: {
-                    legend: {
-                        position: 'top',
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                        }
                     },
-                    tooltip: {
-                        enabled: true
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
                     }
                 }
-            }
+            });
         });
+
     </script>
 
 @endsection
