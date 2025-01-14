@@ -18,7 +18,7 @@
                                 @endif
 
                                 @if($is_vocabulary)
-                                    True
+                                    <livewire:vocabulary-match-test :subject_id="$argc->subject_id"/>
                                 @endif
                             </div>
                         </div>
