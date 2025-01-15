@@ -475,6 +475,24 @@ class LayoutsController extends Controller
 
         $totalUsers = User::count();
 
+        foreach ($users as $user) {
+            $subjects = MatchingResult::where('user_id', $user->id)->pluck('subject_id')->unique();
+
+            $maxProgress = 0;
+
+            foreach ($subjects as $subject) {
+                $maxCorrect = MatchingResult::where('user_id', $user->id)
+                    ->where('subject_id', $subject)
+                    ->max('total_correct');
+
+                if ($maxCorrect >= 8) {
+                    $maxProgress += 1;
+                }
+            }
+
+            $user->progress = $maxProgress * 3;
+        }
+
         return view('welcome', compact('users', 'quizResults', 'results', 'matchingResults','listeningResults','totalUsers'));
     }
 

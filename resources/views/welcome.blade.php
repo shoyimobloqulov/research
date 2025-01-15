@@ -24,6 +24,8 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Progress</th>
+
                                 <th>Activity</th>
                             </tr>
                             </thead>
@@ -33,6 +35,13 @@
                                     <td>{{ $user->id }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td>
+                                        <div class="progress mx-2">
+                                            <div class="progress-bar px-2" role="progressbar" style="width: {{ $user->progress }}%" aria-valuenow="{{ $user->progress }} " aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td>
                                         @if(Carbon\Carbon::parse($user->last_online)->gt(Carbon\Carbon::now()->subMinutes(1)))
                                             <span class="badge bg-success">Online</span>

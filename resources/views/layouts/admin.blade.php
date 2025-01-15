@@ -26,16 +26,10 @@
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script defer="defer" src="{{ asset('assets/js/app69d8.js?803121624e78c5f20718') }}"></script>
     <link href="{{ asset('assets/css/app69d8.css?803121624e78c5f20718') }}" rel="stylesheet">
 
     <!-- Select2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"/>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css"/>
-    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @livewireStyles
 </head>
 <body
@@ -110,34 +104,11 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script defer="defer" src="{{ asset('assets/js/app69d8.js?803121624e78c5f20718') }}"></script>
 
 <script>
-    $(document).ready(function () {
-        $("#region_id").change(function () {
-            let regionId = this.value;
-            let districtSelect = document.getElementById('district_id');
-
-            districtSelect.innerHTML = '<option value="">{{ __('Tumanni tanlang') }}</option>';
-
-            if (regionId) {
-                $.ajax({
-                    url: "/get-districts",
-                    data: {region_id: regionId},
-                    success: function (data) {
-                        data.forEach(district => {
-                            let option = document.createElement('option');
-                            option.value = district.id;
-                            option.textContent = district.district_name;
-                            districtSelect.appendChild(option);
-                        });
-                    }
-                })
-            }
-        });
-
-        $('.select2').select2({
-            theme: 'bootstrap-5'
-        });
+    $(document).ready(function() {
+        $('.select2').select2();
     });
 </script>
 
