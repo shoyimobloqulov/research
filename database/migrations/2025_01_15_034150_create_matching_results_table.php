@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('matching_results', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('subject_id')->constrained()->onDelete('cascade');
+            $table->json('user_answers');
+            $table->json('results');
+            $table->integer('total_correct');
+            $table->integer('total_incorrect');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('vocabulary_id');
-            $table->boolean('is_correct');
-
-            $table->foreign('vocabulary_id')->references('id')->on('vocabularies')->onDelete('cascade');
-
             $table->timestamps();
         });
     }

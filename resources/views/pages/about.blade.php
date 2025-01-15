@@ -2,13 +2,13 @@
 @section('content')
     <div class="position-relative w-100 z-index-0 mb-4 pt-5 bg-theme-1 rounded">
         <div
-            class="coverimg h-100 w-100 rounded start-0 top-0 position-absolute overlay-gradiant overflow-hidden opacity-75"
-            style="background-image: url({{ asset('bg102.jpg') }});"><img
-                src="{{ asset('bg102.jpg') }}" alt="" style="display: none;"></div>
-        <br><br>
+            class="coverimg h-100 w-100 rounded start-0 top-0 position-absolute overlay-gradiant overflow-hidden opacity-70"
+            style="background-image: url({{ asset('samdchti.jpg') }});"><img
+                src="{{ asset('samdchti.jpg') }}" alt="" style="display: none;"></div>
+        <br><br> <br> <br> <br> <br> <br> <br>
         <div class="w-100 p-3 bottom-0 position-relative z-index-1">
             <figure class="avatar avatar-100 rounded bg-white p-3 mb-3"><img
-                    src="{{ asset('logo.jpg') }}" alt=""
+                    src="{{ asset('logo.png') }}" alt=""
                     class="w-100 d-block"></figure>
             <div class="row text-white">
                 <div class="col-12 col-md mb-3 mb-md-0">
@@ -39,7 +39,8 @@
                 tasks, answering questions, watching relevant YouTube videos, taking notes, listening exercises,
                 matching tasks, and engaging in self-study modules. These activities are designed to help you actively
                 apply your knowledge and deepen your understanding of each aspect of the research process. <br><br>
-                Designed for researchers at all levels, the <i>Research Hub</i> is a valuable tool for improving the quality of
+                Designed for researchers at all levels, the <i>Research Hub</i> is a valuable tool for improving the
+                quality of
                 your work, enhancing your research skills, and navigating the complexities of academic publishing and
                 scientific communication. Join us today to take your research to the next level.
 

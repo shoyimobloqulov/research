@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activitie;
+use App\Models\ListeningResult;
+use App\Models\MatchingResult;
 use App\Models\QuizResult;
 use App\Models\Subject;
 use App\Models\User;
@@ -21,12 +23,12 @@ class LayoutsController extends Controller
         $is_listing = str_starts_with($argc->name, 'Activity 4');
         $is_vocabulary = str_starts_with($argc->name, 'Activity 5');
 
-        return view('activity.show',compact('argc','is_listing','is_vocabulary'));
+        return view('activity.show', compact('argc', 'is_listing', 'is_vocabulary'));
     }
 
-    public function certificate($id, $user_id,$name): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    public function certificate($id, $user_id, $name): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
-        $outputFile = $id ."-".$user_id. ".png";
+        $outputFile = $id . "-" . $user_id . ".png";
         $outputPath = public_path('certificate-x/' . $outputFile);
         $url = public_path('certificate-x/' . $outputFile);
         $qrImagePath = public_path('qr_code.png');
@@ -461,7 +463,19 @@ class LayoutsController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        return view('welcome', compact('users', 'quizResults', 'results'));
+        $matchingResults = MatchingResult::where('user_id', auth()->id())
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        $listeningResults = ListeningResult::where('user_id', auth()->id())
+            ->with('listening')
+            ->with('subject')
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        $totalUsers = User::count();
+
+        return view('welcome', compact('users', 'quizResults', 'results', 'matchingResults','listeningResults','totalUsers'));
     }
 
     public function topics(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
@@ -500,6 +514,11 @@ class LayoutsController extends Controller
                 break;
             }
         }
+
+        Subject::find($id)->update([
+            'is_view' => 1
+        ]);
+
         return view('topic.details', compact('topic'));
     }
 
@@ -514,13 +533,21 @@ class LayoutsController extends Controller
         return view('pages.study');
     }
 
-    public function studyFind($id)
+    public function studyFind($id): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $article = $this->articles[$id - 1] ?? null;
 
-        $study = Activitie::where('subject_id',$id)
+        $study = Activitie::where('subject_id', $id)
             ->get();
-        return view('study.show',compact('id','article','study'));
+
+        $subject = Subject::find($id);
+
+        if ($subject->is_view) {
+            return view('study.show', compact('id', 'article', 'study'));
+        }
+        else{
+            return abort(403, "To view the self-study, you must read the attached topic.");
+        }
     }
 
     public function linkArticles(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
@@ -570,7 +597,7 @@ class LayoutsController extends Controller
 
     public function studyDocs($id): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
-        $filePath = public_path('article/'.$id.'.pdf');
+        $filePath = public_path('article/' . $id . '.pdf');
 
         if (!file_exists($filePath)) {
             abort(404, 'PDF fayl topilmadi');

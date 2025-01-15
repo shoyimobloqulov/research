@@ -1,5 +1,54 @@
 @extends('layouts.admin')
 @section('content')
+    @guest
+        <div class="row gx-3 align-items-center">
+            <div class="col-12 col-lg mb-3"><h3 class="fw-normal mb-0 text-secondary">Welcome</h3></div>
+
+            <div class="col-6 col-sm-4 col-lg-3 col-xl-2 mb-3">
+                <div class="card adminuiux-card">
+                    <div class="card-body">
+                        <p class="text-secondary small mb-2">Users</p>
+                        <span class="badge badge-light text-bg-success">
+                            <i class="me-1 bi bi-people-fill"></i>{{ $totalUsers }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="mb-4">Users List</h2>
+                        <table id="quizResults" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Activity</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($users as $user)
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>
+                                        @if(Carbon\Carbon::parse($user->last_online)->gt(Carbon\Carbon::now()->subMinutes(1)))
+                                            <span class="badge bg-success">Online</span>
+                                        @else
+                                            <p class="badge bg-danger">{{ $user->last_online ? Carbon\Carbon::parse($user->last_online)->diffForHumans() : 'Never' }}</p>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endguest
     @auth
         <div class="row">
             <div class="col-md-12"><h3 class="fw-normal mb-0 text-secondary">Good day,</h3>
@@ -15,7 +64,7 @@
             <div class="col-md-12 mt-3">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="mb-4">Test results</h2>
+                        <h2 class="mb-4">You test results</h2>
                         <table id="quizResults" class="table table-bordered table-striped">
                             <thead>
                             <tr>
@@ -53,6 +102,75 @@
                         </table>
                     </div>
                 </div>
+                <div class="card my-2">
+                    <div class="card-body">
+                        <h2 class="mb-4">Your vocabulary results</h2>
+                        <table id="matchResults" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>User ID</th>
+                                <th>Subject ID</th>
+                                <th>User Answers</th>
+                                <th>Total Correct</th>
+                                <th>Total Incorrect</th>
+                                <th>Created At</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($matchingResults as $result)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $result->user_id }}</td>
+                                    <td>{{ $result->subject_id }}</td>
+                                    <td>
+                                        @foreach(json_decode($result->user_answers) as $user_answer)
+                                            <span class="badge bg-primary">{{ $user_answer }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $result->total_correct }}</td>
+                                    <td>{{ $result->total_incorrect }}</td>
+                                    <td>{{ $result->created_at }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card my-2">
+                    <div class="card-body">
+                        <h2 class="mb-4">Your listening results</h2>
+                        <table id="vocabularyResults" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Subject</th>
+                                <th>User Answers</th>
+                                <th>Total Correct</th>
+                                <th>Total Incorrect</th>
+                                <th>Created At</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($listeningResults as $result)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $result->subject->name ?? "" }}</td>
+                                    <td>
+                                        @foreach(json_decode($result->user_answers) as $user_answer)
+                                            <span class="badge bg-primary">{{ $user_answer }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $result->total_correct }}</td>
+                                    <td>{{ $result->total_incorrect }}</td>
+                                    <td>{{ $result->created_at ?? "" }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
     @endauth
@@ -66,7 +184,16 @@
 
     <script>
         $(document).ready(function () {
-            $('#quizResults').DataTable();
+            $('#quizResults').DataTable({
+                responsive: true
+            });
+            $("#matchResults").DataTable({
+                responsive: true
+            });
+            $("#vocabularyResults").DataTable({
+                responsive: true
+            });
+
 
             const quizResults = @json($quizResults);
 

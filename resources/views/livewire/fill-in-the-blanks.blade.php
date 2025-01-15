@@ -1,8 +1,4 @@
 <div class="card card-body my-2">
-    <div class="m-3">
-        {!! $contentWithSelects !!}
-    </div>
-
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -13,48 +9,67 @@
         </div>
     @endif
 
-
-    <form wire:submit.prevent="submitAnswers">
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
-    </form>
-
-    @if (session()->has('message'))
-        <div class="alert alert-success mt-3">
-            {{ session('message') }}
+    @guest
+        <div class="alert alert-info">
+            You must be logged in to view Listening.
         </div>
-    @endif
+    @endguest
 
-    @if (!empty($results))
-        <div class="mt-2">
-            <h3>Results:</h3>
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>User Answer</th>
-                    <th>Result</th>
-                    <th>Select</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach ($results as $result)
-                    <tr class="{{ $result['is_correct'] ? 'table-success' : 'table-danger' }}">
-                        <td>{{ $result['user_answer'] }}</td>
-                        <td>
+    @auth
+        <div class="alert alert-info">
+            If you refresh the page, you will have to start the test again.
+        </div>
+
+        @if (session()->has('message'))
+            <div class="alert alert-success mt-3">
+                {{ session('message') }}
+            </div>
+        @endif
+
+        <div class="m-3">
+            {!! $contentWithSelects !!}
+        </div>
+
+
+        <form wire:submit.prevent="submitAnswers">
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+
+        @if (!empty($results))
+
+            <div class="mt-2">
+                <h3>Results:</h3>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>User Answer</th>
+                        <th>Result</th>
+                        <th>Select</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($results as $result)
+                        <tr class="{{ $result['is_correct'] ? 'table-success' : 'table-danger' }}">
+                            <td>{{ $result['user_answer'] }}</td>
+                            <td>
                             <span class="{{ $result['is_correct'] ? 'text-success' : 'text-danger' }}">
                                 {{ $result['is_correct'] ? 'Correct' : 'Incorrect' }}
                             </span>
-                        </td>
-                        <td>
-                            <input type="checkbox" class="form-check-input"
-                                   {{ $result['is_correct'] ? 'checked' : '' }} disabled>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="checkbox" class="form-check-input"
+                                           {{ $result['is_correct'] ? 'checked' : '' }} disabled>
+                                </label>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
 
-            <p>Total Correct: <span class="text-success">{{ $totalCorrect }}</span></p>
-            <p>Total Incorrect: <span class="text-danger">{{ $totalIncorrect }}</span></p>
-        </div>
-    @endif
+                <p>Total Correct: <span class="text-success">{{ $totalCorrect }}</span></p>
+                <p>Total Incorrect: <span class="text-danger">{{ $totalIncorrect }}</span></p>
+            </div>
+        @endif
+    @endauth
 </div>

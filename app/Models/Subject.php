@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
 {
-    protected $fillable = ['test_id', 'text', 'is_correct'];
+    protected $fillable = ['test_id', 'text', 'is_correct','is_view'];
 
     public function test(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

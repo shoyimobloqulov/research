@@ -10,15 +10,20 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <h2 class="text-center">{!! $argc->description ?? "" !!}</h2>
                                 @if($is_listing)
                                     <livewire:fill-in-the-blanks :listeningId="$argc->subject_id"/>
 
-                                    <livewire:line-chart :listening_id="$argc->subject_id"/>
+                                    @auth
+                                        <livewire:line-chart :listening_id="$argc->subject_id"/>
+                                    @endauth
                                 @endif
 
                                 @if($is_vocabulary)
                                     <livewire:vocabulary-match-test :subject_id="$argc->subject_id"/>
+                                @else
+                                    @if(!$is_vocabulary and !$is_listing)
+                                        <p>{!! $argc->description ?? "" !!}</p>
+                                    @endif
                                 @endif
                             </div>
                         </div>

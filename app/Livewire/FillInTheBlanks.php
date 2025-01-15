@@ -58,10 +58,12 @@ class FillInTheBlanks extends Component
                 $this->totalIncorrect++;
             }
         }
+
         ListeningResult::create([
             'listening_id' => $this->listening->id,
             'user_answers' => json_encode($this->userAnswers),
             'results' => json_encode($this->results),
+            'user_id'   => auth()->id(),
             'total_correct' => $this->totalCorrect,
             'total_incorrect' => $this->totalIncorrect,
         ]);

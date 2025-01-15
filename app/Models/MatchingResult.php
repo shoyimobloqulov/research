@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class MatchingResult extends Model
 {
-    use HasFactory;
+    protected $fillable = ['subject_id', 'user_answers', 'results', 'total_correct', 'total_incorrect','user_id'];
+    protected $casts = ['user_answers' => 'array', 'results' => 'array',];
 
-    protected $fillable = [
-        'user_id',
-        'vocabulary_id',
-        'is_correct',
-    ];
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
 }

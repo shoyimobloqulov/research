@@ -1,14 +1,22 @@
 @extends('layouts.admin')
 @section('content')
+    <style>
+        .avatar.avatar-200 {
+            height: 200px;
+            line-height: 90px;
+            width: 200px;
+        }
+    </style>
     <div class="position-relative w-100 z-index-0 mb-4 pt-5 bg-theme-1 rounded">
         <div
-            class="coverimg h-100 w-100 rounded start-0 top-0 position-absolute overlay-gradiant overflow-hidden opacity-75"
-            style="background-image: url({{ asset('bg102.jpg') }});"><img
-                src="{{ asset('bg102.jpg') }}" alt="" style="display: none;"></div>
-        <br><br>
+            class="coverimg h-100 w-100 rounded start-0 top-0 position-absolute overlay-gradiant overflow-hidden opacity-50"
+            style="background-image: url({{ asset('samdchti1.jpg') }});"><img
+                src="{{ asset('samdchti1.jpg') }}" alt="" style="display: none;"></div>
+        <br><br> <br><br> <br><br>
         <div class="w-100 p-3 bottom-0 position-relative z-index-1">
-            <figure class="avatar avatar-100 rounded bg-white p-3 mb-3"><img src="{{ asset('user.png') }}" alt=""
-                                                                             class="w-100 d-block"></figure>
+            <figure class="avatar avatar-200 rounded bg-white p-4 mb-3 overlay-gradiant opacity-100">
+                <img src="{{ asset('user.png') }}" alt="user image not found" class="w-100 d-block">
+            </figure>
             <div class="row text-white">
                 <div class="col-12 col-md mb-3 mb-md-0">
                     <h4>
