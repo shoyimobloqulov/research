@@ -9,53 +9,42 @@ use Livewire\Component;
 class VocabularyMatchTest extends Component
 {
     public $vocabularies;
-    public $userAnswers = [];
-    public $selectedWord = null; // Tanlangan so‘z
-    public $selectedDefinition = null; // Tanlangan ta'rif
-    public $showResults = false;
-    public $results = [];
-    public $colors = []; // Juftlik uchun ranglar
+    public array $userAnswers = [];
+    public array $selectedWords = [];
+    public array $selectedDefinitions = [];
+    public bool $showResults = false;
+    public array $results = [];
 
     public function mount($subject_id)
     {
-        $this->vocabularies = Vocabulary::where('subject_id', $subject_id)->get()->shuffle();
+        $this->vocabularies = Vocabulary::where('subject_id', $subject_id)->get();
+    }
 
-        // Har bir juftlik uchun tasodifiy ranglarni yaratish
-        foreach ($this->vocabularies as $vocabulary) {
-            $this->colors[$vocabulary->id] = $this->generateRandomColor();
+    public function selectWord($word_id)
+    {
+        if (in_array($word_id, $this->selectedWords)) {
+            $this->selectedWords = array_diff($this->selectedWords, [$word_id]);
+        } else {
+            $this->selectedWords[] = $word_id;
         }
     }
 
-    public function selectWord($wordId)
+    public function selectDefinition($definition, $word_id)
     {
-        $this->selectedWord = $wordId;
-    }
-
-    public function selectDefinition($definitionId)
-    {
-        $this->selectedDefinition = $definitionId;
-
-        // Agar so‘z va ta'rif tanlangan bo‘lsa, javobni saqlash
-        if ($this->selectedWord !== null) {
-            $this->userAnswers[$this->selectedWord] = $definitionId;
-
-            // Reset tanlangan elementlar
-            $this->selectedWord = null;
-            $this->selectedDefinition = null;
+        if (in_array($definition, $this->selectedDefinitions)) {
+            $this->selectedDefinitions = array_diff($this->selectedDefinitions, [$definition]);
+            unset($this->userAnswers[$word_id]);
+        } else {
+            $this->selectedDefinitions[] = $definition;
+            $this->userAnswers[$word_id] = $definition;
         }
-    }
-
-    private function generateRandomColor()
-    {
-        $colors = ['#FF5733', '#33FF57', '#5733FF', '#F1C40F', '#1ABC9C', '#E74C3C', '#9B59B6', '#34495E'];
-        return $colors[array_rand($colors)];
     }
 
     public function checkAnswers()
     {
         $this->showResults = true;
         foreach ($this->vocabularies as $vocabulary) {
-            $isCorrect = $this->userAnswers[$vocabulary->id] === $vocabulary->chr;
+            $isCorrect = isset($this->userAnswers[$vocabulary->id]) && $this->userAnswers[$vocabulary->id] === $vocabulary->chr;
             $this->results[$vocabulary->id] = $isCorrect;
 
             MatchingResult::create([
